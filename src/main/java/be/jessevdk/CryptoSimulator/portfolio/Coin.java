@@ -1,19 +1,24 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.portfolio;
 
-public class Currency {
+import java.math.BigDecimal;
+
+public class Coin {
     private Long id;
     private String name;
     private String symbol;
+    private double amount;
 
-    public Currency(Long id, String name, String symbol) {
+    public Coin(Long id, String name, String symbol, double amount) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
+        this.amount = amount;
     }
 
-    public Currency(String name, String symbol) {
+    public Coin(String name, String symbol, double amount) {
         this.name = name;
         this.symbol = symbol;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -40,12 +45,11 @@ public class Currency {
         this.symbol = symbol;
     }
 
-    /*@Override
-    public String toString() {
-        return "Currency{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", symbol='" + symbol + '\'' +
-                '}';
-    }*/
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
