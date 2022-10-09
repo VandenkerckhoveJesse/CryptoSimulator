@@ -14,15 +14,15 @@ public class CurrencyController {
     public List<Currency> getAllCurrencies() {
         return List.of(
                 new Currency(
-                        1L, "Bitcoin", "25C4"
+                        "chacha", "Bitcoin", "25C4"
                 ),
                 new Currency(
-                        2L, "Ethereum", "88D9"
+                        "krkao", "Ethereum", "88D9"
                 )
         );
     }
     @GetMapping("{id}")
-    public Currency getCurrency(@PathVariable Long id) {
+    public Currency getCurrency(@PathVariable String id) {
         return new Currency(id, "Bitcoin", "25C4");
     }
 }

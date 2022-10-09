@@ -1,11 +1,18 @@
 package be.jessevdk.CryptoSimulator.currency;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Currency {
-    private Long id;
+    @Id
+    private String id;
     private String name;
+    @Indexed
     private String symbol;
 
-    public Currency(Long id, String name, String symbol) {
+    public Currency(String id, String name, String symbol) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -16,11 +23,11 @@ public class Currency {
         this.symbol = symbol;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
