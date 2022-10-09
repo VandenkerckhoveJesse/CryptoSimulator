@@ -1,6 +1,7 @@
 package be.jessevdk.CryptoSimulator.currency;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -8,6 +9,7 @@ public class Currency {
     @Id
     private String id;
     private String name;
+    @Indexed
     private String symbol;
 
     public Currency(String id, String name, String symbol) {
