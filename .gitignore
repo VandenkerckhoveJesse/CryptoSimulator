@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Webpack generated resources ###
+src/main/resources/static
+src/main/resources/templates
