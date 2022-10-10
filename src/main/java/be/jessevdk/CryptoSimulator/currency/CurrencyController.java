@@ -1,5 +1,6 @@
 package be.jessevdk.CryptoSimulator.currency;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,19 +11,20 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/currency")
 public class CurrencyController {
+
+    private final CurrencyService currencyService;
+
+    @Autowired
+    public CurrencyController(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
+
     @GetMapping
     public List<Currency> getAllCurrencies() {
-        return List.of(
-                new Currency(
-                        "chacha", "Bitcoin", "25C4"
-                ),
-                new Currency(
-                        "krkao", "Ethereum", "88D9"
-                )
-        );
+        return currencyService.getAllCurrencies();
     }
     @GetMapping("{id}")
     public Currency getCurrency(@PathVariable String id) {
-        return new Currency(id, "Bitcoin", "25C4");
+        return currencyService.getCurrency(id);
     }
 }
