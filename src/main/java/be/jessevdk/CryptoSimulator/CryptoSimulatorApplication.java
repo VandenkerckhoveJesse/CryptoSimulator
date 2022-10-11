@@ -14,12 +14,12 @@ public class CryptoSimulatorApplication {
 		SpringApplication.run(CryptoSimulatorApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	CommandLineRunner runner(CurrencyRepository repository) {
 		return args -> {
-			Currency cur = new Currency("Bitcoin", "BIT");
+				Currency cur = new Currency("Ethereum", "ETH");
 			repository.insert(cur);
 		};
-	}
+	}*/
 
 }
