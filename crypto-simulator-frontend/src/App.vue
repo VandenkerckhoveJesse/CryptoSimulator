@@ -1,28 +1,24 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <NavHeader></NavHeader>
+  <router-view/>
+  <WebFooter></WebFooter>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  // @ is an alias to /src
+  import NavHeader from '@/components/NavHeader.vue'
+  import WebFooter from "./components/WebFooter";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name: 'HomeView',
+    components: {
+      NavHeader,
+      WebFooter
+    }
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import './assets/css/styles.min.css';
+@import './assets/css/fonts.css';
 </style>

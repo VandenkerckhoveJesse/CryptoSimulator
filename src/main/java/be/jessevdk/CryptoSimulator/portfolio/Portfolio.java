@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Portfolio {
     List<Coin> coins;
+    //todo: add left money
     @Transient
     private double value;
 
