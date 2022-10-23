@@ -9,12 +9,9 @@ import java.util.List;
 public class Portfolio {
     List<Coin> coins;
     //todo: add left money
-    @Transient
-    private double value;
 
-    public Portfolio(List<Coin> coins, double value) {
+    public Portfolio(List<Coin> coins) {
         this.coins = coins;
-        this.value = value;
     }
 
     public List<Coin> getCoins() {
@@ -25,12 +22,6 @@ public class Portfolio {
         this.coins = coins;
     }
 
-    public double getValue() {
-        return value;
-    }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
 }
 

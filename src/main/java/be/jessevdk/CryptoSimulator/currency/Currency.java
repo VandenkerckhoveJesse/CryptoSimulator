@@ -12,8 +12,6 @@ public class Currency {
     private String name;
     @Indexed(unique = true)
     private String symbol;
-    @Transient
-    private Double price;
 
     public Currency() {
     }
@@ -51,14 +49,6 @@ public class Currency {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     /*@Override
