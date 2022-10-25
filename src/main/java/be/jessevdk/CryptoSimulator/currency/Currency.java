@@ -22,11 +22,6 @@ public class Currency {
         this.symbol = symbol;
     }
 
-    public Currency(String name, String symbol) {
-        this.name = name;
-        this.symbol = symbol;
-    }
-
     public String getId() {
         return id;
     }
