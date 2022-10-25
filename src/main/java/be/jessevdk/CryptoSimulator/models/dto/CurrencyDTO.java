@@ -1,4 +1,4 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.models.dto;
 
 public class CurrencyDTO {
     private String id;

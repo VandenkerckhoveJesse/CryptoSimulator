@@ -1,5 +1,7 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.controllers;
 
+import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
+import be.jessevdk.CryptoSimulator.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

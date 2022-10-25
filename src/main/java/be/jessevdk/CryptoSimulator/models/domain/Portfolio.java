@@ -1,9 +1,7 @@
-package be.jessevdk.CryptoSimulator.portfolio;
+package be.jessevdk.CryptoSimulator.models.domain;
 
-import be.jessevdk.CryptoSimulator.currency.Currency;
-import org.springframework.data.annotation.Transient;
+import be.jessevdk.CryptoSimulator.models.domain.Coin;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Portfolio {

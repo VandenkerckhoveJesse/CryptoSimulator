@@ -1,4 +1,4 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.models.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;

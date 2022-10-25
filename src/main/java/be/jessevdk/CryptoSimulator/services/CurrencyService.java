@@ -1,20 +1,15 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.services;
 
+import be.jessevdk.CryptoSimulator.models.domain.Currency;
+import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
+import be.jessevdk.CryptoSimulator.repositories.CurrencyRepository;
 import be.jessevdk.CryptoSimulator.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

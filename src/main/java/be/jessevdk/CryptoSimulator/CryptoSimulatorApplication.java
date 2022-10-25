@@ -1,11 +1,7 @@
 package be.jessevdk.CryptoSimulator;
 
-import be.jessevdk.CryptoSimulator.currency.Currency;
-import be.jessevdk.CryptoSimulator.currency.CurrencyRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CryptoSimulatorApplication {

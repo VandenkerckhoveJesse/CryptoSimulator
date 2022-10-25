@@ -1,4 +1,4 @@
-package be.jessevdk.CryptoSimulator.portfolio;
+package be.jessevdk.CryptoSimulator.models.domain;
 
 import java.math.BigDecimal;
 
