@@ -1,13 +1,12 @@
-package be.jessevdk.CryptoSimulator.portfolio;
+package be.jessevdk.CryptoSimulator.controllers;
 
 
+import be.jessevdk.CryptoSimulator.models.domain.Coin;
+import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import be.jessevdk.CryptoSimulator.currency.Currency;
 
-import javax.sound.sampled.Port;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -15,11 +14,11 @@ import java.util.List;
 public class PortfolioController {
     @GetMapping
     public Portfolio getPortfolio() {
-        return new Portfolio(List.of(new Coin(1L, "Bitcoin", "BIT", 2.0)), 5);
+        return new Portfolio(List.of(new Coin(1L, "Bitcoin", "BIT", 2.0)));
     }
 
     @GetMapping("value")
     public double getValue() {
-        return new Portfolio(List.of(new Coin(1L, "Bitcoin", "BIT", 2.0)), 5).getValue();
+        return 2;
     }
 }

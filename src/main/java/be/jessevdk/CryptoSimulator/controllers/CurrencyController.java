@@ -1,5 +1,7 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.controllers;
 
+import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
+import be.jessevdk.CryptoSimulator.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/currency")
@@ -21,11 +22,11 @@ public class CurrencyController {
     }
 
     @GetMapping
-    public List<Currency> getAllCurrencies() {
+    public List<CurrencyDTO> getAllCurrencies() {
         return currencyService.getAllCurrencies();
     }
     @GetMapping("{id}")
-    public Optional<Currency> getCurrency(@PathVariable String id) {
+    public CurrencyDTO getCurrency(@PathVariable String id) {
         return currencyService.getCurrency(id);
     }
 }

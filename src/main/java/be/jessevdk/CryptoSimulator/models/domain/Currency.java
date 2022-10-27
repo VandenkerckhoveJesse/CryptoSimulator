@@ -1,4 +1,4 @@
-package be.jessevdk.CryptoSimulator.currency;
+package be.jessevdk.CryptoSimulator.models.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -12,19 +12,12 @@ public class Currency {
     private String name;
     @Indexed(unique = true)
     private String symbol;
-    @Transient
-    private Double price;
 
     public Currency() {
     }
 
     public Currency(String id, String name, String symbol) {
         this.id = id;
-        this.name = name;
-        this.symbol = symbol;
-    }
-
-    public Currency(String name, String symbol) {
         this.name = name;
         this.symbol = symbol;
     }
@@ -51,14 +44,6 @@ public class Currency {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     /*@Override
