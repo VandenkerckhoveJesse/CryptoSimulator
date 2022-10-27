@@ -1,5 +1,8 @@
 package be.jessevdk.CryptoSimulator.services;
 
+import be.jessevdk.CryptoSimulator.models.api.Asset;
+import be.jessevdk.CryptoSimulator.models.api.GetAssetResponse;
+import be.jessevdk.CryptoSimulator.models.api.GetAssetsResponse;
 import be.jessevdk.CryptoSimulator.models.domain.Currency;
 import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
 import be.jessevdk.CryptoSimulator.repositories.CurrencyRepository;
@@ -10,7 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CurrencyService {
@@ -28,9 +36,16 @@ public class CurrencyService {
 
     public List<CurrencyDTO> getAllCurrencies() {
         List<Currency> currencies =  currencyRepository.findAll();
-        List<CurrencyDTO> currencyDTOS = currencies
-                .stream()
-                .map(currency -> modelMapper.map(currency, CurrencyDTO.class))
+        GetAssetsResponse apiResponse = webClient.get()
+                .uri("/assets")
+                .retrieve()
+                .bodyToMono(GetAssetsResponse.class)
+                .block();//For now using blocking behaviour, can be updated in future
+        Map<String, Asset> assetMap = apiResponse.getData().stream()
+                .collect(Collectors.toMap(Asset::getId, Function.identity()));
+        List<CurrencyDTO> currencyDTOS = currencies.stream()
+                .flatMap(currency -> Optional.ofNullable(assetMap.get(currency.getId()))
+                        .map(asset -> Stream.of(new CurrencyDTO(currency, asset))).orElse(null))
                 .collect(Collectors.toList());
         return currencyDTOS;
     }
@@ -40,6 +55,13 @@ public class CurrencyService {
                 .findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
         CurrencyDTO currencyDTO = modelMapper.map(currency, CurrencyDTO.class);
+        GetAssetResponse apiResponse = webClient.get()
+                .uri("/assets/"+currency.getId())
+                .retrieve()
+                .bodyToMono(GetAssetResponse.class)
+                .log()
+                .block();//For now using blocking behaviour, can be updated in future
+        currencyDTO.setPriceUsd(apiResponse.getData().getPriceUsd());
         return currencyDTO;
     }
 
