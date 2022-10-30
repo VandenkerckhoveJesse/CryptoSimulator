@@ -1,4 +1,4 @@
-package be.jessevdk.CryptoSimulator;
+package be.jessevdk.CryptoSimulator.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
