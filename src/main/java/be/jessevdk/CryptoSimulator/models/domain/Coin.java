@@ -21,6 +21,9 @@ public class Coin {
         this.amount = amount;
     }
 
+    public Coin() {
+    }
+
     public Long getId() {
         return id;
     }

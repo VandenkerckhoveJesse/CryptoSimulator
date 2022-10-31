@@ -1,28 +1,38 @@
 package be.jessevdk.CryptoSimulator.auth;
 
+import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
+@Document
 public class ApplicationUser implements UserDetails {
-    private final List<? extends GrantedAuthority> grantedAuthorities;
-    private final String password;
-    private final String username;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
+    @Id
+    private String id;
+    @Indexed(unique = true)
+    private String username;
+    private String password;
+    private Portfolio portfolio;
 
-    public ApplicationUser(List<? extends GrantedAuthority> grantedAuthorities, String password, String username, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-        this.grantedAuthorities = grantedAuthorities;
-        this.password = password;
+    public ApplicationUser(String id, String username, String password, Portfolio portfolio) {
+        this.id = id;
         this.username = username;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
+        this.password = password;
+        this.portfolio = portfolio;
+    }
+
+    public ApplicationUser(String username, String password, Portfolio portfolio) {
+        this.username = username;
+        this.password = password;
+        this.portfolio = portfolio;
+    }
+
+    public ApplicationUser() {
     }
 
     @Override
@@ -32,33 +42,55 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
 }
