@@ -14,7 +14,7 @@ import java.util.List;
 public class PortfolioController {
     @GetMapping
     public Portfolio getPortfolio() {
-        return new Portfolio(List.of(new Coin(1L, "Bitcoin", "BIT", 2.0)));
+        return new Portfolio(List.of(new Coin("bitcoin", "Bitcoin", "BIT", 2.0)));
     }
 
     @GetMapping("value")

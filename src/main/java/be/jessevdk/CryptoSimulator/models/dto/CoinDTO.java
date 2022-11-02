@@ -1,21 +1,12 @@
-package be.jessevdk.CryptoSimulator.models.domain;
+package be.jessevdk.CryptoSimulator.models.dto;
 
-import java.math.BigDecimal;
-
-public class Coin {
+public class CoinDTO {
     private String id;
     private String name;
     private String symbol;
     private double amount;
 
-    public Coin(String id, String name, String symbol, double amount) {
-        this.id = id;
-        this.name = name;
-        this.symbol = symbol;
-        this.amount = amount;
-    }
-
-    public Coin() {
+    public CoinDTO() {
     }
 
     public String getId() {
