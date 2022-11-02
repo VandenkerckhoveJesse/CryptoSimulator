@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Portfolio {
     List<Coin> coins;
-    //todo: add left money
 
     public Portfolio(List<Coin> coins) {
         this.coins = coins;

@@ -1,23 +1,27 @@
 package be.jessevdk.CryptoSimulator.services;
 
 import be.jessevdk.CryptoSimulator.auth.ApplicationUser;
+import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
+import be.jessevdk.CryptoSimulator.models.dto.ApplicationUserDTO;
 import be.jessevdk.CryptoSimulator.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.ui.ModelMap;
 
 @Service
-public class ApplicationUserDetailsService implements UserDetailsService {
+public class ApplicationUserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @Override
@@ -30,8 +34,14 @@ public class ApplicationUserDetailsService implements UserDetailsService {
         }
     }
 
-    public void saveUser(ApplicationUser user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    public ApplicationUserDTO createNewUser(String username, String password) {
+        ApplicationUser newUser = new ApplicationUser(
+                username,
+                passwordEncoder.encode(username),
+                new Portfolio(null)
+        );
+        ApplicationUser createdUser = userRepository.save(newUser);
+        ApplicationUserDTO userDTO = modelMapper.map(createdUser, ApplicationUserDTO.class);
+        return userDTO;
     }
 }
