@@ -5,25 +5,30 @@ import be.jessevdk.CryptoSimulator.models.domain.Coin;
 import java.util.List;
 
 public class PortfolioDTO {
-    private List<Coin> coins;
-    private double value;
+    private List<CoinDTO> coins;
+    private double valueUsd;
 
     public PortfolioDTO() {
     }
 
-    public List<Coin> getCoins() {
+    public PortfolioDTO(List<CoinDTO> coins, double valueUsd) {
+        this.coins = coins;
+        this.valueUsd = valueUsd;
+    }
+
+    public List<CoinDTO> getCoins() {
         return coins;
     }
 
-    public void setCoins(List<Coin> coins) {
+    public void setCoins(List<CoinDTO> coins) {
         this.coins = coins;
     }
 
-    public double getValue() {
-        return value;
+    public double getValueUsd() {
+        return valueUsd;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+    public void setValueUsd(double valueUsd) {
+        this.valueUsd = valueUsd;
     }
 }

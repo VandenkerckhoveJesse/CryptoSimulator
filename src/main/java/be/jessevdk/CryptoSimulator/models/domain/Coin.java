@@ -1,7 +1,5 @@
 package be.jessevdk.CryptoSimulator.models.domain;
 
-import java.math.BigDecimal;
-
 public class Coin {
     private String id;
     private String name;
