@@ -1,6 +1,6 @@
 package be.jessevdk.CryptoSimulator.auth;
 
-import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
+import be.jessevdk.CryptoSimulator.models.domain.Coin;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,16 +17,16 @@ public class ApplicationUser implements UserDetails {
     @Indexed(unique = true)
     private String username;
     private String password;
-    private Portfolio portfolio;
+    private List<Coin> portfolio;
 
-    public ApplicationUser(String id, String username, String password, Portfolio portfolio) {
+    public ApplicationUser(String id, String username, String password, List<Coin> portfolio) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.portfolio = portfolio;
     }
 
-    public ApplicationUser(String username, String password, Portfolio portfolio) {
+    public ApplicationUser(String username, String password, List<Coin> portfolio) {
         this.username = username;
         this.password = password;
         this.portfolio = portfolio;
@@ -74,7 +74,7 @@ public class ApplicationUser implements UserDetails {
         return id;
     }
 
-    public Portfolio getPortfolio() {
+    public List<Coin> getPortfolio() {
         return portfolio;
     }
 
@@ -90,7 +90,7 @@ public class ApplicationUser implements UserDetails {
         this.username = username;
     }
 
-    public void setPortfolio(Portfolio portfolio) {
+    public void setPortfolio(List<Coin> portfolio) {
         this.portfolio = portfolio;
     }
 }

@@ -1,7 +1,6 @@
 package be.jessevdk.CryptoSimulator.services;
 
 import be.jessevdk.CryptoSimulator.auth.ApplicationUser;
-import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
 import be.jessevdk.CryptoSimulator.models.dto.ApplicationUserDTO;
 import be.jessevdk.CryptoSimulator.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -11,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
+
+import java.util.List;
 
 @Service
 public class ApplicationUserService implements UserDetailsService {
@@ -38,7 +38,7 @@ public class ApplicationUserService implements UserDetailsService {
         ApplicationUser newUser = new ApplicationUser(
                 username,
                 passwordEncoder.encode(username),
-                new Portfolio(null)
+                List.of()
         );
         ApplicationUser createdUser = userRepository.save(newUser);
         ApplicationUserDTO userDTO = modelMapper.map(createdUser, ApplicationUserDTO.class);

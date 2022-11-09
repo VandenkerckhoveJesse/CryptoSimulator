@@ -1,9 +1,5 @@
 package be.jessevdk.CryptoSimulator.models.dto;
 
-import be.jessevdk.CryptoSimulator.models.domain.Portfolio;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-
 public class ApplicationUserDTO {
     private String id;
     private String username;
