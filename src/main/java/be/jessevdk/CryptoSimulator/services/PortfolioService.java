@@ -15,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.*;
 
 @Service
@@ -35,17 +34,7 @@ public class PortfolioService {
 
     public PortfolioDTO getPortfolio(String username) {
         ApplicationUser user = userRepository.findByUsername(username);
-        PortfolioDTO portfolioDTO = mapPortfolioToPortfolioDTO(user.getPortfolio());
-
-        return new PortfolioDTO();
-        /*
-        GetAssetResponse apiResponse = webClient.get()
-                .uri("/assets/"+currency.getId())
-                .retrieve()
-                .bodyToMono(GetAssetResponse.class)
-                .log()
-                .block();//For now using blocking behaviour, can be updated in future
-         */
+        return mapPortfolioToPortfolioDTO(user.getPortfolio());
     }
 
     private PortfolioDTO mapPortfolioToPortfolioDTO(List<Coin> coins) {
@@ -59,17 +48,16 @@ public class PortfolioService {
                 .collect(Collectors.toMap(Asset::getId, Asset::getPriceUsd));
 
         Stream<CoinDTO> coinDTOSStream = coins
-                .stream().map(coin -> mapToCoinDTO(coin, assetPricesMap.get(coin.getId())));
+                .stream().map(coin -> mapCoinToCoinDTO(coin, assetPricesMap.get(coin.getId())));
 
         var results = coinDTOSStream.collect(PortfolioValueAndCoinDTOToListCollector.toPortfolioValueAndCoinDTOListCollectorResult());
-
-
-        return null;
+        return new PortfolioDTO(results.getCoinDTOList(),
+                results.getPortfolioValue());
     }
 
 
 
-    private CoinDTO mapToCoinDTO(Coin coin, double priceUsd) {
+    private CoinDTO mapCoinToCoinDTO(Coin coin, double priceUsd) {
         be.jessevdk.CryptoSimulator.models.dto.CoinDTO dto = modelMapper.map(coin, be.jessevdk.CryptoSimulator.models.dto.CoinDTO.class);
         dto.setPriceUsd(priceUsd);
         dto.setValueUsd(priceUsd*coin.getAmount());
