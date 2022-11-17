@@ -17,18 +17,22 @@ public class ApplicationUser implements UserDetails {
     @Indexed(unique = true)
     private String username;
     private String password;
+
+    private double walletUsd;
     private List<Coin> portfolio;
 
-    public ApplicationUser(String id, String username, String password, List<Coin> portfolio) {
+    public ApplicationUser(String id, String username, String password, double walletUsd, List<Coin> portfolio) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.walletUsd = walletUsd;
         this.portfolio = portfolio;
     }
 
-    public ApplicationUser(String username, String password, List<Coin> portfolio) {
+    public ApplicationUser(String username, String password, double walletUsd, List<Coin> portfolio) {
         this.username = username;
         this.password = password;
+        this.walletUsd = walletUsd;
         this.portfolio = portfolio;
     }
 
@@ -88,6 +92,14 @@ public class ApplicationUser implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public double getWalletUsd() {
+        return walletUsd;
+    }
+
+    public void setWalletUsd(double walletUsd) {
+        this.walletUsd = walletUsd;
     }
 
     public void setPortfolio(List<Coin> portfolio) {

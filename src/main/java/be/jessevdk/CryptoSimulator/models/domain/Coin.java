@@ -1,5 +1,8 @@
 package be.jessevdk.CryptoSimulator.models.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 public class Coin {
     private String id;
     private String name;

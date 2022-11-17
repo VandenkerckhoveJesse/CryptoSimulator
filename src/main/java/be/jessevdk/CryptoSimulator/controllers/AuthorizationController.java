@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/auth")
+@RequestMapping("api/auth")
 public class AuthorizationController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthorizationController.class);
     private final TokenService tokenService;
@@ -20,7 +20,7 @@ public class AuthorizationController {
         this.applicationUserService = applicationUserService;
     }
 
-    @PostMapping("/token")
+    @PostMapping("token")
     public String token(Authentication authentication) {
         LOG.debug("Token requested for user: '{}'", authentication.getName());
         String token = tokenService.generateToken(authentication);
@@ -28,7 +28,7 @@ public class AuthorizationController {
         return token;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("signup")
     public ApplicationUserDTO createNewUser(@RequestParam String username, @RequestParam String password) {
         return applicationUserService.createNewUser(username, password);
     }

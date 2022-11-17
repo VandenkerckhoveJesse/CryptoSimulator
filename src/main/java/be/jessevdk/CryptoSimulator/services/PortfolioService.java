@@ -3,9 +3,11 @@ package be.jessevdk.CryptoSimulator.services;
 import be.jessevdk.CryptoSimulator.auth.ApplicationUser;
 import be.jessevdk.CryptoSimulator.collectors.PortfolioValueAndCoinDTOToListCollector;
 import be.jessevdk.CryptoSimulator.models.api.Asset;
+import be.jessevdk.CryptoSimulator.models.api.GetAssetResponse;
 import be.jessevdk.CryptoSimulator.models.api.GetAssetsResponse;
 import be.jessevdk.CryptoSimulator.models.domain.Coin;
 import be.jessevdk.CryptoSimulator.models.dto.CoinDTO;
+import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
 import be.jessevdk.CryptoSimulator.models.dto.PortfolioDTO;
 import be.jessevdk.CryptoSimulator.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -58,10 +60,22 @@ public class PortfolioService {
 
 
     private CoinDTO mapCoinToCoinDTO(Coin coin, double priceUsd) {
-        be.jessevdk.CryptoSimulator.models.dto.CoinDTO dto = modelMapper.map(coin, be.jessevdk.CryptoSimulator.models.dto.CoinDTO.class);
+        CoinDTO dto = modelMapper.map(coin, be.jessevdk.CryptoSimulator.models.dto.CoinDTO.class);
         dto.setPriceUsd(priceUsd);
         dto.setValueUsd(priceUsd*coin.getAmount());
         return dto;
     }
 
+
+    public void buyCoin(String username, String coinId, double amount) {
+        CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
+        var transactionPrice = currencyDTO.getPriceUsd() * amount;
+        var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
+        userRepository.pushCoinsToPortfolioAndDecreaseWallet(
+                username, coin, transactionPrice);
+    }
+
+    public void sellCoin(String username, String coinId, double amount) {
+
+    }
 }

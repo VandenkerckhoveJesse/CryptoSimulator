@@ -1,6 +1,8 @@
 package be.jessevdk.CryptoSimulator;
 
 import be.jessevdk.CryptoSimulator.config.RsaKeyProperties;
+import be.jessevdk.CryptoSimulator.models.domain.Currency;
+import be.jessevdk.CryptoSimulator.repositories.CurrencyRepository;
 import be.jessevdk.CryptoSimulator.services.ApplicationUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,12 +30,12 @@ public class CryptoSimulatorApplication {
 		};
 	}*/
 
-
+/*
 	@Bean
 	CommandLineRunner runner(ApplicationUserService service) {
 		return args -> {
 			service.createNewUser("anya", "123");
 		};
-	}
+	}*/
 
 }

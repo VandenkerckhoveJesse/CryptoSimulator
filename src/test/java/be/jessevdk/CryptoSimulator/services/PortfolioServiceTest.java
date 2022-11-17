@@ -134,4 +134,6 @@ class PortfolioServiceTest {
         return calculatedValuesStream.sum();
     }
 
+
+
 }

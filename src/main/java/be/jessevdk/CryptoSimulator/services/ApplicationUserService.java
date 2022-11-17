@@ -35,9 +35,11 @@ public class ApplicationUserService implements UserDetailsService {
     }
 
     public ApplicationUserDTO createNewUser(String username, String password) {
+        var encodedPassword = passwordEncoder.encode(password);
         ApplicationUser newUser = new ApplicationUser(
                 username,
-                passwordEncoder.encode(username),
+                encodedPassword,
+                10000, //todo put this in config so it can be changed
                 List.of()
         );
         ApplicationUser createdUser = userRepository.save(newUser);
