@@ -16,16 +16,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     protected MongoTemplate mongoTemplate;
 
     @Override
-    public void pushCoinsToPortfolioAndDecreaseWallet(String username, Coin coin, double priceUsd) {
-        try{
-            decreaseWalletUsd(username, priceUsd); //If decrease wallets throws exception, coins will not be added to portfolio
-            pushCoinToPortfolio(username, coin);
-        } catch (UserNotFoundException | InsufficientWalletFundsException exception) {
-            throw exception;
-        }
-    }
-
-    private void decreaseWalletUsd(String username, double priceUsd) throws UserNotFoundException, InsufficientWalletFundsException {
+    public void decreaseWalletUsd(String username, double priceUsd) throws UserNotFoundException, InsufficientWalletFundsException {
         var updateWallet = AggregationUpdate.update();
         updateWallet.set("walletUsd").toValue(
                 ConditionalOperators
@@ -37,7 +28,8 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         if(updateWalletResult.getModifiedCount() == 0) throw new InsufficientWalletFundsException();
     }
 
-    private void pushCoinToPortfolio(String username, Coin coin) {
+    @Override
+    public void pushCoinToPortfolio(String username, Coin coin) {
         try {
             incrementCoin(username, coin);
         } catch (CoinNotFoundException exception) {
