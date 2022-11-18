@@ -29,12 +29,46 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     }
 
     @Override
-    public void pushCoinToPortfolio(String username, Coin coin) {
+    public void addCoinToPortfolio(String username, Coin coin) {
         try {
             incrementCoin(username, coin);
         } catch (CoinNotFoundException exception) {
-            addCoinToPortfolio(username, coin);
+            pushCoinToPortfolioList(username, coin);
         }
+    }
+
+    @Override
+    public void removeCoinFromPortfolio(String username, Coin coin) {
+        decrementCoin(username, coin);
+        var balk = "Df";
+        //In future remove coins that hit amount 0.
+    }
+
+    @Override
+    public double getCoinAmount(String username, String coinId) throws CoinNotFoundException {
+        var query = new Query();
+        query.fields().include("portfolio.$");
+        query.addCriteria(Criteria.where("username").is(username).and("portfolio.id").is(coinId));
+        var res = mongoTemplate.findOne(query, ApplicationUser.class);
+        if(null == res) {
+            throw new CoinNotFoundException();
+        }
+        return res.getPortfolio().get(0).getAmount();
+    }
+
+    private void decrementCoin(String username, Coin coin) {
+        var decrementUpdate = AggregationUpdate.update();
+        decrementUpdate.set("$.amount").toValue(90000);
+        /*decrementUpdate.set("portfolio.$.amount").toValue(
+                ConditionalOperators
+                        .when(ComparisonOperators.Gte.valueOf("portfolio.$.amount").greaterThanEqualToValue(coin.getAmount()))
+                        .thenValueOf(ArithmeticOperators.valueOf("portfolio.$.amount").subtract(coin.getAmount()))
+                        .otherwiseValueOf("portfolio.$.amount"));*/
+        UpdateResult updateResult = mongoTemplate.updateFirst(
+                Query.query(Criteria.where("username").is(username).and("portfolio.id").is(coin.getId())),
+                decrementUpdate,
+                ApplicationUser.class);
+        var df = 1;
     }
 
     private void incrementCoin(String username, Coin coin) throws CoinNotFoundException {
@@ -48,7 +82,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         if(incrementResult.getMatchedCount() == 0) throw new CoinNotFoundException();
     }
 
-    private void addCoinToPortfolio(String username, Coin coin) {
+    private void pushCoinToPortfolioList(String username, Coin coin) {
         var update = new Update();
         var res = mongoTemplate.updateFirst(
                 Query.query(Criteria.where("username").is(username)),

@@ -51,7 +51,9 @@ public class PortfolioService {
                 .collect(Collectors.toMap(Asset::getId, Asset::getPriceUsd));
 
         Stream<CoinDTO> coinDTOSStream = coins
-                .stream().map(coin -> mapCoinToCoinDTO(coin, assetPricesMap.get(coin.getId())));
+                .stream()
+                .filter(coin -> coin.getAmount() != 0)
+                .map(coin -> mapCoinToCoinDTO(coin, assetPricesMap.get(coin.getId())));
 
         var results = coinDTOSStream.collect(PortfolioValueAndCoinDTOToListCollector.toPortfolioValueAndCoinDTOListCollectorResult());
         return new PortfolioDTO(results.getCoinDTOList(),
@@ -74,18 +76,26 @@ public class PortfolioService {
         var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
         try{
             userRepository.decreaseWalletUsd(username, transactionCost); //If throws exception no coins don't get pushed
-            userRepository.pushCoinToPortfolio(username, coin);
+            userRepository.addCoinToPortfolio(username, coin);
         } catch (UserNotFoundException | InsufficientWalletFundsException e) {
             throw e;
         }
     }
 
     public void sellCoin(String username, String coinId, double amount) {
+        var coinAmount = userRepository.getCoinAmount(username, coinId);
+        switch(coinAmount){
+            case amount:
+        }
         /*CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
-        var transactionValue = amount*currencyDTO.getPriceUsd();
+        var transactionValue = currencyDTO.getPriceUsd() * amount;
         var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
-        userRepository.removeCoinFromPortfolio(
-                username, coin, transactionValue
-        );*/
+        try{
+            userRepository.removeCoinFromPortfolio(username, coin);
+        } catch (Exception e) {
+            var exception = e ;
+        }*/
+        userRepository.getCoinAmount(username, coinId);
+
     }
 }

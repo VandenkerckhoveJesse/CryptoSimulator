@@ -6,7 +6,7 @@ public class CoinDTO {
     private String symbol;
     private double amount;
 
-    private double priceUsd;
+    private double priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
 
     private double valueUsd;
 

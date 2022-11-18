@@ -18,7 +18,7 @@ public class ApplicationUser implements UserDetails {
     private String username;
     private String password;
 
-    private double walletUsd;
+    private double walletUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
     private List<Coin> portfolio;
 
     public ApplicationUser(String id, String username, String password, double walletUsd, List<Coin> portfolio) {

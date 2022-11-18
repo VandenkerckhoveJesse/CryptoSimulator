@@ -7,5 +7,4 @@ public interface UserRepository extends
         MongoRepository<ApplicationUser, String>
         ,CustomUserRepository {
     ApplicationUser findByUsername(String username);
-
 }

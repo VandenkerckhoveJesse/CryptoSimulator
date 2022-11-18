@@ -9,7 +9,7 @@ public class CurrencyDTO {
     private String id;
     private String name;
     private String symbol;
-    private double priceUsd;
+    private double priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
 
     public CurrencyDTO() {
     }

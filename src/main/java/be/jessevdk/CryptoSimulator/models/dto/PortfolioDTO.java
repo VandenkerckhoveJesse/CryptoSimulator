@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PortfolioDTO {
     private List<CoinDTO> coins;
-    private double valueUsd;
+    private double valueUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
 
     public PortfolioDTO() {
     }
