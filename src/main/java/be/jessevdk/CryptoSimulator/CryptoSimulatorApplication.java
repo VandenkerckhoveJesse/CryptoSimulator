@@ -1,12 +1,16 @@
 package be.jessevdk.CryptoSimulator;
 
-import be.jessevdk.CryptoSimulator.currency.Currency;
-import be.jessevdk.CryptoSimulator.currency.CurrencyRepository;
+import be.jessevdk.CryptoSimulator.config.RsaKeyProperties;
+import be.jessevdk.CryptoSimulator.models.domain.Currency;
+import be.jessevdk.CryptoSimulator.repositories.CurrencyRepository;
+import be.jessevdk.CryptoSimulator.services.ApplicationUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+@EnableConfigurationProperties(RsaKeyProperties.class)
 @SpringBootApplication
 public class CryptoSimulatorApplication {
 
@@ -14,11 +18,23 @@ public class CryptoSimulatorApplication {
 		SpringApplication.run(CryptoSimulatorApplication.class, args);
 	}
 
-	/*@Bean
+
+	/*
+	@Bean
 	CommandLineRunner runner(CurrencyRepository repository) {
 		return args -> {
-				Currency cur = new Currency("Ethereum", "ETH");
+			Currency cur = new Currency("bitcoin", "Bitcoin", "BTC");
+			Currency cur2 = new Currency("ethereum-classic", "Ethereum", "ETH");
 			repository.insert(cur);
+			repository.insert(cur2);
+		};
+	}*/
+
+/*
+	@Bean
+	CommandLineRunner runner(ApplicationUserService service) {
+		return args -> {
+			service.createNewUser("anya", "123");
 		};
 	}*/
 
