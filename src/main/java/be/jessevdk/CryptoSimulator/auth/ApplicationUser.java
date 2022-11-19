@@ -4,11 +4,15 @@ import be.jessevdk.CryptoSimulator.models.domain.Coin;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.mapping.FieldType.DECIMAL128;
 
 @Document
 public class ApplicationUser implements UserDetails {
@@ -18,10 +22,11 @@ public class ApplicationUser implements UserDetails {
     private String username;
     private String password;
 
-    private double walletUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
+    @Field(targetType = DECIMAL128)
+    private BigDecimal walletUsd;
     private List<Coin> portfolio;
 
-    public ApplicationUser(String id, String username, String password, double walletUsd, List<Coin> portfolio) {
+    public ApplicationUser(String id, String username, String password, BigDecimal walletUsd, List<Coin> portfolio) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,7 +34,7 @@ public class ApplicationUser implements UserDetails {
         this.portfolio = portfolio;
     }
 
-    public ApplicationUser(String username, String password, double walletUsd, List<Coin> portfolio) {
+    public ApplicationUser(String username, String password, BigDecimal walletUsd, List<Coin> portfolio) {
         this.username = username;
         this.password = password;
         this.walletUsd = walletUsd;
@@ -94,11 +99,11 @@ public class ApplicationUser implements UserDetails {
         this.username = username;
     }
 
-    public double getWalletUsd() {
+    public BigDecimal getWalletUsd() {
         return walletUsd;
     }
 
-    public void setWalletUsd(double walletUsd) {
+    public void setWalletUsd(BigDecimal walletUsd) {
         this.walletUsd = walletUsd;
     }
 

@@ -1,19 +1,21 @@
 package be.jessevdk.CryptoSimulator.models.dto;
 
+import java.math.BigDecimal;
+
 public class CoinDTO {
     private String id;
     private String name;
     private String symbol;
-    private double amount;
+    private BigDecimal amount;
 
-    private double priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
+    private BigDecimal priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
 
-    private double valueUsd;
+    private BigDecimal valueUsd;
 
     public CoinDTO() {
     }
 
-    public CoinDTO(String id, String name, String symbol, double amount, double priceUsd, double valueUsd) {
+    public CoinDTO(String id, String name, String symbol, BigDecimal amount, BigDecimal priceUsd, BigDecimal valueUsd) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -46,27 +48,27 @@ public class CoinDTO {
         this.symbol = symbol;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public double getPriceUsd() {
+    public BigDecimal getPriceUsd() {
         return priceUsd;
     }
 
-    public void setPriceUsd(double priceUsd) {
+    public void setPriceUsd(BigDecimal priceUsd) {
         this.priceUsd = priceUsd;
     }
 
-    public double getValueUsd() {
+    public BigDecimal getValueUsd() {
         return valueUsd;
     }
 
-    public void setValueUsd(double valueUsd) {
+    public void setValueUsd(BigDecimal valueUsd) {
         this.valueUsd = valueUsd;
     }
 }

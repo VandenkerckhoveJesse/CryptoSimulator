@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.*;
@@ -47,12 +48,12 @@ public class PortfolioService {
                 .bodyToMono(GetAssetsResponse.class)
                 .block();
 
-        Map<String, Double> assetPricesMap = apiResponse.getData().stream()
+        Map<String, BigDecimal> assetPricesMap = apiResponse.getData().stream()
                 .collect(Collectors.toMap(Asset::getId, Asset::getPriceUsd));
 
         Stream<CoinDTO> coinDTOSStream = coins
                 .stream()
-                .filter(coin -> coin.getAmount() != 0)
+                .filter(coin -> BigDecimal.ZERO.compareTo(coin.getAmount()) != 0) //todo this should go away because its unnecessary
                 .map(coin -> mapCoinToCoinDTO(coin, assetPricesMap.get(coin.getId())));
 
         var results = coinDTOSStream.collect(PortfolioValueAndCoinDTOToListCollector.toPortfolioValueAndCoinDTOListCollectorResult());
@@ -62,17 +63,17 @@ public class PortfolioService {
 
 
 
-    private CoinDTO mapCoinToCoinDTO(Coin coin, double priceUsd) {
+    private CoinDTO mapCoinToCoinDTO(Coin coin, BigDecimal priceUsd) {
         CoinDTO dto = modelMapper.map(coin, be.jessevdk.CryptoSimulator.models.dto.CoinDTO.class);
         dto.setPriceUsd(priceUsd);
-        dto.setValueUsd(priceUsd*coin.getAmount());
+        dto.setValueUsd(coin.getAmount().multiply(priceUsd));
         return dto;
     }
 
 
-    public void buyCoin(String username, String coinId, double amount) {
+    public void buyCoin(String username, String coinId, BigDecimal amount) {
         CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
-        var transactionCost = currencyDTO.getPriceUsd() * amount;
+        var transactionCost = currencyDTO.getPriceUsd().multiply(amount);
         var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
         try{
             userRepository.decreaseWalletUsd(username, transactionCost); //If throws exception no coins don't get pushed
@@ -82,12 +83,12 @@ public class PortfolioService {
         }
     }
 
-    public void sellCoin(String username, String coinId, double amount) {
+    public void sellCoin(String username, String coinId, BigDecimal amount) {
         var coinAmount = userRepository.getCoinAmount(username, coinId);
-        switch(coinAmount){
-            case amount:
-        }
-        /*CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
+
+
+
+                /*CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
         var transactionValue = currencyDTO.getPriceUsd() * amount;
         var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
         try{

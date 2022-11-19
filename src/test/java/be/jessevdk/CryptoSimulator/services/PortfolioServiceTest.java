@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -63,13 +64,13 @@ class PortfolioServiceTest {
 
     @Test
     void getPortfolioValueForOneCoin() {
-        List<Coin> mockCoins = List.of(new Coin("bitcoin", "Bitcoin", "BTC", 3));
+        List<Coin> mockCoins = List.of(new Coin("bitcoin", "Bitcoin", "BTC", BigDecimal.valueOf(3)));
         ApplicationUser mockUser = new ApplicationUser();
         mockUser.setPortfolio(mockCoins);
         GetAssetsResponse mockResponse = new GetAssetsResponse();
         List<Asset> mockAssets = List.of(
-                new Asset("bitcoin", 1L, "BTC", 2, 50, 2500, 85500, 30, -20, 55, "explore"),
-                new Asset("ethereum-classic", 2L, "eth", 2, 50, 1200, 200, 30, 20, 55, "explore"));
+                new Asset("bitcoin", 1L, "BTC", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(30), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"),
+                new Asset("ethereum-classic", 2L, "eth", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(30), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"));
         mockResponse.setData(mockAssets);
         mockResponse.setTimestamp(new Timestamp(System.currentTimeMillis()));
         when(userRepository.findByUsername("jesse")).thenReturn(mockUser);
@@ -77,23 +78,23 @@ class PortfolioServiceTest {
 
         var result = portfolioService.getPortfolio("jesse");
 
-        double expected = calculatePortfolioValue(mockCoins, mockAssets);
+        BigDecimal expected = calculatePortfolioValue(mockCoins, mockAssets);
         assertEquals(expected, result.getValueUsd());
     }
 
     @Test
     void getPortfolioValueForMultipleCoins() {
         List<Coin> mockCoins = List.of(
-                new Coin("bitcoin", "Bitcoin", "BTC", 3),
-                new Coin("ethereum", "Ethereum", "ETH", 6.009),
-                new Coin("solaria", "Solaria", "SOL", 2.8));
+                new Coin("bitcoin", "Bitcoin", "BTC", BigDecimal.valueOf(3)),
+                new Coin("ethereum", "Ethereum", "ETH", BigDecimal.valueOf(6.99)),
+                new Coin("solaria", "Solaria", "SOL", BigDecimal.valueOf(6.776)));
         ApplicationUser mockUser = new ApplicationUser();
         mockUser.setPortfolio(mockCoins);
         GetAssetsResponse mockResponse = new GetAssetsResponse();
         List<Asset> mockAssets = List.of(
-                new Asset("bitcoin", 1L, "BTC", 2, 50, 2500, 85500, 30, -20, 55, "explore"),
-                new Asset("ethereum", 2L, "ETH", 2, 50, 1200, 200, 67.88, 20, 55, "explore"),
-                new Asset("solaria", 3L, "SOL", 2, 50, 1200, 200, 99.77, 20, 55, "explore"));
+                new Asset("bitcoin", 1L, "BTC", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(30), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"),
+                new Asset("ethereum", 2L, "ETH", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"),
+                new Asset("solaria", 3L, "SOL", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"));
         mockResponse.setData(mockAssets);
         mockResponse.setTimestamp(new Timestamp(System.currentTimeMillis()));
         when(userRepository.findByUsername("jesse")).thenReturn(mockUser);
@@ -101,7 +102,7 @@ class PortfolioServiceTest {
 
         PortfolioDTO result = portfolioService.getPortfolio("jesse");
 
-        double expected = calculatePortfolioValue(mockCoins, mockAssets);
+        BigDecimal expected = calculatePortfolioValue(mockCoins, mockAssets);
         assertEquals(expected, result.getValueUsd());
     }
 
@@ -112,9 +113,9 @@ class PortfolioServiceTest {
         mockUser.setPortfolio(mockCoins);
         GetAssetsResponse mockResponse = new GetAssetsResponse();
         List<Asset> mockAssets = List.of(
-                new Asset("bitcoin", 1L, "BTC", 2, 50, 2500, 85500, 30, -20, 55, "explore"),
-                new Asset("ethereum", 2L, "ETH", 2, 50, 1200, 200, 67.88, 20, 55, "explore"),
-                new Asset("solaria", 3L, "SOL", 2, 50, 1200, 200, 99.77, 20, 55, "explore"));
+                new Asset("bitcoin", 1L, "BTC", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(30), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"),
+                new Asset("ethereum", 2L, "ETH", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(398.09), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"),
+                new Asset("solaria", 3L, "SOL", BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(3), BigDecimal.valueOf(99.8), BigDecimal.valueOf(3), BigDecimal.valueOf(3), "explore"));
         mockResponse.setData(mockAssets);
         mockResponse.setTimestamp(new Timestamp(System.currentTimeMillis()));
         when(userRepository.findByUsername("jesse")).thenReturn(mockUser);
@@ -122,18 +123,17 @@ class PortfolioServiceTest {
 
         PortfolioDTO result = portfolioService.getPortfolio("jesse");
 
-        double expected = calculatePortfolioValue(mockCoins, mockAssets);
+        BigDecimal expected = calculatePortfolioValue(mockCoins, mockAssets);
         assertEquals(expected, result.getValueUsd());
     }
 
-    private double calculatePortfolioValue(List<Coin> coins, List<Asset> assets) {
-        Map<String, Double> values = assets.stream()
+    private BigDecimal calculatePortfolioValue(List<Coin> coins, List<Asset> assets) {
+        Map<String, BigDecimal> values = assets.stream()
                 .collect(Collectors.toMap(Asset::getId, Asset::getPriceUsd));
         var calculatedValuesStream = coins.stream()
-                .mapToDouble((coin) -> coin.getAmount() * values.get(coin.getId()));
-        return calculatedValuesStream.sum();
+                .map((coin) -> coin.getAmount().multiply(values.get(coin.getId())));
+        return calculatedValuesStream.reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 
 
 }

@@ -21,6 +21,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,8 +70,8 @@ class CurrencyServiceTest {
         List<Currency> mockCurrencies = List.of(new Currency("bitcoin", "Bitcoin", "BTC"), new Currency("ethereum-classic", "Ethereum", "ETH"));
         GetAssetsResponse mockResponse = new GetAssetsResponse();
         List<Asset> mockAssets = List.of(
-                new Asset("bitcoin", 1L, "BTC", 2, 50, 2500, 85500, 30, -20, 55, "explore"),
-                new Asset("ethereum-classic", 2L, "eth", 2, 50, 1200, 200, 30, 20, 55, "explore"));
+                new Asset("bitcoin", 1L, "BTC", BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(30), BigDecimal.valueOf(2), BigDecimal.valueOf(2), "explore"),
+                new Asset("ethereum-classic", 2L, "eth", BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(30), BigDecimal.valueOf(2), BigDecimal.valueOf(2), "explore"));
         mockResponse.setData(mockAssets);
         mockResponse.setTimestamp(new Timestamp(System.currentTimeMillis()));
         when(currencyRepository.findAll()).thenReturn(mockCurrencies);
@@ -82,7 +83,7 @@ class CurrencyServiceTest {
                 .stream()
                 .map(currency -> {
                     var res = modelMapper.map(currency, CurrencyDTO.class);
-                    res.setPriceUsd(30);
+                    res.setPriceUsd(BigDecimal.valueOf(30));
                     return res;
                 })
                 .collect(Collectors.toList());
@@ -93,7 +94,7 @@ class CurrencyServiceTest {
     void getCurrency() {
         Currency mockCurrency = new Currency("bitcoin", "Bitcoin", "BTC");
         GetAssetResponse mockResponse = new GetAssetResponse();
-        Asset mockAsset = new Asset("bitcoin", 1L, "BTC", 2, 50, 2500, 85500, 88, -20, 55, "explore");
+        Asset mockAsset = new Asset("bitcoin", 1L, "BTC", BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(2), BigDecimal.valueOf(30), BigDecimal.valueOf(2), BigDecimal.valueOf(2), "explore");
         mockResponse.setData(mockAsset);
         mockResponse.setTimestamp(new Timestamp(System.currentTimeMillis()));
         when(currencyRepository.findById("bitcoin")).thenReturn(java.util.Optional.of(mockCurrency));

@@ -1,24 +1,25 @@
 package be.jessevdk.CryptoSimulator.collectors;
 
-import be.jessevdk.CryptoSimulator.models.domain.Coin;
 import be.jessevdk.CryptoSimulator.models.dto.CoinDTO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PortfolioValueAndCoinDTOToListCollectorResult {
-    private double portfolioValue;
+    private BigDecimal portfolioValue;
     private List<CoinDTO> coinDTOList;
 
     public PortfolioValueAndCoinDTOToListCollectorResult() {
         this.coinDTOList = new ArrayList<CoinDTO>(); //todo check if this is the best implementation of list
+        this.portfolioValue = BigDecimal.ZERO;
     }
 
-    public double getPortfolioValue() {
+    public BigDecimal getPortfolioValue() {
         return portfolioValue;
     }
 
-    public void setPortfolioValue(double portfolioValue) {
+    public void setPortfolioValue(BigDecimal portfolioValue) {
         this.portfolioValue = portfolioValue;
     }
 
@@ -30,8 +31,8 @@ public class PortfolioValueAndCoinDTOToListCollectorResult {
         this.coinDTOList = coinDTOList;
     }
 
-    public void addToPortfolioValue(double amount) {
-        this.portfolioValue += amount;
+    public void addToPortfolioValue(BigDecimal amount) {
+        this.portfolioValue = this.portfolioValue.add(amount);
     }
 
     public void addToCoinDTOList(CoinDTO dto) {

@@ -11,17 +11,21 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.*;
 
+import java.math.BigDecimal;
+
 public class CustomUserRepositoryImpl implements CustomUserRepository {
     @Autowired
     protected MongoTemplate mongoTemplate;
 
     @Override
-    public void decreaseWalletUsd(String username, double priceUsd) throws UserNotFoundException, InsufficientWalletFundsException {
+    public void decreaseWalletUsd(String username, BigDecimal priceUsd) throws UserNotFoundException, InsufficientWalletFundsException {
         var updateWallet = AggregationUpdate.update();
         updateWallet.set("walletUsd").toValue(
                 ConditionalOperators
-                        .when(ComparisonOperators.Gte.valueOf("walletUsd").greaterThanEqualToValue(priceUsd))
-                        .thenValueOf(ArithmeticOperators.valueOf("walletUsd").subtract(priceUsd))
+                        .when(ComparisonOperators.Gte.valueOf("walletUsd")
+                                .greaterThanEqualToValue(priceUsd)) //todo This introduces a rounding/precision error, fix this soon.
+                        .thenValueOf(ArithmeticOperators.valueOf("walletUsd")
+                                .subtract(priceUsd)) //todo This introduces a rounding/precision error, fix this soon.
                         .otherwiseValueOf("walletUsd"));
         UpdateResult updateWalletResult = mongoTemplate.updateFirst(Query.query(Criteria.where("username").is(username)), updateWallet, ApplicationUser.class);
         if(updateWalletResult.getMatchedCount() == 0) throw new UserNotFoundException();
@@ -40,12 +44,11 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     @Override
     public void removeCoinFromPortfolio(String username, Coin coin) {
         decrementCoin(username, coin);
-        var balk = "Df";
         //In future remove coins that hit amount 0.
     }
 
     @Override
-    public double getCoinAmount(String username, String coinId) throws CoinNotFoundException {
+    public BigDecimal getCoinAmount(String username, String coinId) throws CoinNotFoundException {
         var query = new Query();
         query.fields().include("portfolio.$");
         query.addCriteria(Criteria.where("username").is(username).and("portfolio.id").is(coinId));

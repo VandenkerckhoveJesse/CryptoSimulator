@@ -2,14 +2,20 @@ package be.jessevdk.CryptoSimulator.models.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.math.BigDecimal;
+
+import static org.springframework.data.mongodb.core.mapping.FieldType.DECIMAL128;
 
 public class Coin {
     private String id;
     private String name;
     private String symbol;
-    private double amount;
+    @Field(targetType = DECIMAL128)
+    private BigDecimal amount;
 
-    public Coin(String id, String name, String symbol, double amount) {
+    public Coin(String id, String name, String symbol, BigDecimal amount) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -43,11 +49,11 @@ public class Coin {
         this.symbol = symbol;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

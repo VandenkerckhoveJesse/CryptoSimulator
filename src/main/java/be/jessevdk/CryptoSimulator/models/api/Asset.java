@@ -1,22 +1,24 @@
 package be.jessevdk.CryptoSimulator.models.api;
 
+import java.math.BigDecimal;
+
 public class Asset {
     private String id;
     private Long rank;
     private String symbol;
-    private double supply;
-    private double maxSupply;
-    private double marketCapUsd;
-    private double volumeUsd24Hr;
-    private double priceUsd;
-    private double changePercent24Hr;
-    private double vwap24Hr;
+    private BigDecimal supply;
+    private BigDecimal maxSupply;
+    private BigDecimal marketCapUsd;
+    private BigDecimal volumeUsd24Hr;
+    private BigDecimal priceUsd;
+    private BigDecimal changePercent24Hr;
+    private BigDecimal vwap24Hr;
     private String explorer;
 
     public Asset() {
     }
 
-    public Asset(String id, Long rank, String symbol, double supply, double maxSupply, double marketCapUsd, double volumeUsd24Hr, double priceUsd, double changePercent24Hr, double vwap24Hr, String explorer) {
+    public Asset(String id, Long rank, String symbol, BigDecimal supply, BigDecimal maxSupply, BigDecimal marketCapUsd, BigDecimal volumeUsd24Hr, BigDecimal priceUsd, BigDecimal changePercent24Hr, BigDecimal vwap24Hr, String explorer) {
         this.id = id;
         this.rank = rank;
         this.symbol = symbol;
@@ -54,59 +56,59 @@ public class Asset {
         this.symbol = symbol;
     }
 
-    public double getSupply() {
+    public BigDecimal getSupply() {
         return supply;
     }
 
-    public void setSupply(double supply) {
+    public void setSupply(BigDecimal supply) {
         this.supply = supply;
     }
 
-    public double getMaxSupply() {
+    public BigDecimal getMaxSupply() {
         return maxSupply;
     }
 
-    public void setMaxSupply(double maxSupply) {
+    public void setMaxSupply(BigDecimal maxSupply) {
         this.maxSupply = maxSupply;
     }
 
-    public double getMarketCapUsd() {
+    public BigDecimal getMarketCapUsd() {
         return marketCapUsd;
     }
 
-    public void setMarketCapUsd(double marketCapUsd) {
+    public void setMarketCapUsd(BigDecimal marketCapUsd) {
         this.marketCapUsd = marketCapUsd;
     }
 
-    public double getVolumeUsd24Hr() {
+    public BigDecimal getVolumeUsd24Hr() {
         return volumeUsd24Hr;
     }
 
-    public void setVolumeUsd24Hr(double volumeUsd24Hr) {
+    public void setVolumeUsd24Hr(BigDecimal volumeUsd24Hr) {
         this.volumeUsd24Hr = volumeUsd24Hr;
     }
 
-    public double getPriceUsd() {
+    public BigDecimal getPriceUsd() {
         return priceUsd;
     }
 
-    public void setPriceUsd(double priceUsd) {
+    public void setPriceUsd(BigDecimal priceUsd) {
         this.priceUsd = priceUsd;
     }
 
-    public double getChangePercent24Hr() {
+    public BigDecimal getChangePercent24Hr() {
         return changePercent24Hr;
     }
 
-    public void setChangePercent24Hr(double changePercent24Hr) {
+    public void setChangePercent24Hr(BigDecimal changePercent24Hr) {
         this.changePercent24Hr = changePercent24Hr;
     }
 
-    public double getVwap24Hr() {
+    public BigDecimal getVwap24Hr() {
         return vwap24Hr;
     }
 
-    public void setVwap24Hr(double vwap24Hr) {
+    public void setVwap24Hr(BigDecimal vwap24Hr) {
         this.vwap24Hr = vwap24Hr;
     }
 

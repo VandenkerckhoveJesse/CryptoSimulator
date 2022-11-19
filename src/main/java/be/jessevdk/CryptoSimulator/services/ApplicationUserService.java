@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -39,7 +40,7 @@ public class ApplicationUserService implements UserDetailsService {
         ApplicationUser newUser = new ApplicationUser(
                 username,
                 encodedPassword,
-                10000, //todo put this in config so it can be changed
+                BigDecimal.valueOf(1000), //todo put this in config so it can be changed
                 List.of()
         );
         ApplicationUser createdUser = userRepository.save(newUser);

@@ -3,18 +3,19 @@ package be.jessevdk.CryptoSimulator.models.dto;
 import be.jessevdk.CryptoSimulator.models.api.Asset;
 import be.jessevdk.CryptoSimulator.models.domain.Currency;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CurrencyDTO {
     private String id;
     private String name;
     private String symbol;
-    private double priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
+    private BigDecimal priceUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
 
     public CurrencyDTO() {
     }
 
-    public CurrencyDTO(String id, String name, String symbol, double priceUsd) {
+    public CurrencyDTO(String id, String name, String symbol, BigDecimal priceUsd) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -52,11 +53,11 @@ public class CurrencyDTO {
         this.symbol = symbol;
     }
 
-    public double getPriceUsd() {
+    public BigDecimal getPriceUsd() {
         return priceUsd;
     }
 
-    public void setPriceUsd(double priceUsd) {
+    public void setPriceUsd(BigDecimal priceUsd) {
         this.priceUsd = priceUsd;
     }
 
@@ -65,7 +66,7 @@ public class CurrencyDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurrencyDTO that = (CurrencyDTO) o;
-        return Double.compare(that.priceUsd, priceUsd) == 0 && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(symbol, that.symbol);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(symbol, that.symbol) && Objects.equals(priceUsd, that.priceUsd);
     }
 
     @Override

@@ -7,6 +7,7 @@ import be.jessevdk.CryptoSimulator.services.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 @RestController
@@ -20,12 +21,12 @@ public class PortfolioController {
     }
 
     @PostMapping(path="coins/buy")
-    public void buyCoin(Principal principal, @RequestParam String id, @RequestParam double amount) {
+    public void buyCoin(Principal principal, @RequestParam String id, @RequestParam BigDecimal amount) {
         portfolioService.buyCoin(principal.getName(), id, amount);
     }
 
     @PostMapping(path="coins/sell")
-    public void sellCoin(Principal principal, @RequestParam String id, @RequestParam double amount) {
+    public void sellCoin(Principal principal, @RequestParam String id, @RequestParam BigDecimal amount) {
         portfolioService.sellCoin(principal.getName(), id, amount);
         var baltal = "zero";
     }
