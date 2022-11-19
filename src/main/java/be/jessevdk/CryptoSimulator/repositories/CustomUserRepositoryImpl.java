@@ -22,14 +22,19 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         var updateWallet = AggregationUpdate.update();
         updateWallet.set("walletUsd").toValue(
                 ConditionalOperators
-                        .when(ComparisonOperators.Gte.valueOf("walletUsd")
-                                .greaterThanEqualToValue(priceUsd)) //todo This introduces a rounding/precision error, fix this soon.
-                        .thenValueOf(ArithmeticOperators.valueOf("walletUsd")
-                                .subtract(priceUsd)) //todo This introduces a rounding/precision error, fix this soon.
+                        .when(ComparisonOperators.Gte.valueOf("walletUsd").greaterThanEqualToValue(priceUsd)).thenValueOf(ArithmeticOperators.valueOf("walletUsd").subtract(priceUsd))
                         .otherwiseValueOf("walletUsd"));
         UpdateResult updateWalletResult = mongoTemplate.updateFirst(Query.query(Criteria.where("username").is(username)), updateWallet, ApplicationUser.class);
         if(updateWalletResult.getMatchedCount() == 0) throw new UserNotFoundException();
         if(updateWalletResult.getModifiedCount() == 0) throw new InsufficientWalletFundsException();
+    }
+
+    @Override
+    public void increaseWalletUsd(String username, BigDecimal amountUsd) {
+        var update = new Update();
+        update.inc("walletUsd", amountUsd);
+        var query = new Query().addCriteria(Criteria.where("username").is(username));
+        mongoTemplate.updateFirst(query, update, ApplicationUser.class);
     }
 
     @Override
@@ -43,8 +48,18 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @Override
     public void removeCoinFromPortfolio(String username, Coin coin) {
-        decrementCoin(username, coin);
-        //In future remove coins that hit amount 0.
+        var update = new Update();
+        update.pull("portfolio", coin);
+        var query = new Query().addCriteria(Criteria.where("username").is(username).and("portfolio.id").is(coin.getId()));
+        mongoTemplate.updateFirst(query, update, ApplicationUser.class);
+    }
+
+    @Override
+    public void decreaseCoinAmount(String username, Coin coin) {
+        var update = new Update();
+        update.inc("portfolio.$.amount", coin.getAmount().negate());
+        var query = new Query().addCriteria(Criteria.where("username").is(username).and("portfolio.id").is(coin.getId()));
+        mongoTemplate.updateFirst(query, update, ApplicationUser.class);
     }
 
     @Override
@@ -57,21 +72,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             throw new CoinNotFoundException();
         }
         return res.getPortfolio().get(0).getAmount();
-    }
-
-    private void decrementCoin(String username, Coin coin) {
-        var decrementUpdate = AggregationUpdate.update();
-        decrementUpdate.set("$.amount").toValue(90000);
-        /*decrementUpdate.set("portfolio.$.amount").toValue(
-                ConditionalOperators
-                        .when(ComparisonOperators.Gte.valueOf("portfolio.$.amount").greaterThanEqualToValue(coin.getAmount()))
-                        .thenValueOf(ArithmeticOperators.valueOf("portfolio.$.amount").subtract(coin.getAmount()))
-                        .otherwiseValueOf("portfolio.$.amount"));*/
-        UpdateResult updateResult = mongoTemplate.updateFirst(
-                Query.query(Criteria.where("username").is(username).and("portfolio.id").is(coin.getId())),
-                decrementUpdate,
-                ApplicationUser.class);
-        var df = 1;
     }
 
     private void incrementCoin(String username, Coin coin) throws CoinNotFoundException {

@@ -2,6 +2,7 @@ package be.jessevdk.CryptoSimulator.services;
 
 import be.jessevdk.CryptoSimulator.auth.ApplicationUser;
 import be.jessevdk.CryptoSimulator.collectors.PortfolioValueAndCoinDTOToListCollector;
+import be.jessevdk.CryptoSimulator.exceptions.CoinNotFoundException;
 import be.jessevdk.CryptoSimulator.exceptions.InsufficientWalletFundsException;
 import be.jessevdk.CryptoSimulator.exceptions.UserNotFoundException;
 import be.jessevdk.CryptoSimulator.models.api.Asset;
@@ -83,20 +84,17 @@ public class PortfolioService {
         }
     }
 
-    public void sellCoin(String username, String coinId, BigDecimal amount) {
+    public void sellCoin(String username, String coinId, BigDecimal sellAmount) {
+        CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
         var coinAmount = userRepository.getCoinAmount(username, coinId);
-
-
-
-                /*CurrencyDTO currencyDTO = currencyService.getCurrency(coinId);
-        var transactionValue = currencyDTO.getPriceUsd() * amount;
-        var coin = new Coin(currencyDTO.getId(), currencyDTO.getName(), currencyDTO.getSymbol(), amount);
-        try{
+        Coin coin = new Coin(coinId, currencyDTO.getName(), currencyDTO.getSymbol(), sellAmount);
+        if(sellAmount.compareTo(coinAmount) < 0) { //sellAmount < coinAmount
+            userRepository.decreaseCoinAmount(username, coin);
+        } else if(sellAmount.compareTo(coinAmount) == 0) { //sellAmount == coinAmount
             userRepository.removeCoinFromPortfolio(username, coin);
-        } catch (Exception e) {
-            var exception = e ;
-        }*/
-        userRepository.getCoinAmount(username, coinId);
-
+        } else { //sellAmount > coinAmount
+            throw new CoinNotFoundException();
+        }
+        userRepository.increaseWalletUsd(username, currencyDTO.getPriceUsd().multiply(sellAmount));
     }
 }

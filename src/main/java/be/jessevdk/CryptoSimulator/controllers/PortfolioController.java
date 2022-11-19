@@ -28,6 +28,5 @@ public class PortfolioController {
     @PostMapping(path="coins/sell")
     public void sellCoin(Principal principal, @RequestParam String id, @RequestParam BigDecimal amount) {
         portfolioService.sellCoin(principal.getName(), id, amount);
-        var baltal = "zero";
     }
 }

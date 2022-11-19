@@ -9,9 +9,13 @@ import java.math.BigDecimal;
 public interface CustomUserRepository {
     public void decreaseWalletUsd(String username, BigDecimal amountUsd) throws UserNotFoundException, InsufficientWalletFundsException;
 
+    public void increaseWalletUsd(String username, BigDecimal amountUsd);
+
     public void addCoinToPortfolio(String username, Coin coin);
 
     public void removeCoinFromPortfolio(String username, Coin coin);
+
+    public void decreaseCoinAmount(String username, Coin coin);
 
     public BigDecimal getCoinAmount(String username, String coinId);
 
