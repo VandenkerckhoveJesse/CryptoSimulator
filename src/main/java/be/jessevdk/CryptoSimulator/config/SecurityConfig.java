@@ -36,7 +36,8 @@ public class SecurityConfig{
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.antMatchers("/api/auth/signup").permitAll();
-                    auth.anyRequest().authenticated();
+                    //auth.anyRequest().authenticated();
+                    auth.anyRequest().permitAll();
                 })
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
