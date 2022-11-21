@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-xl-4 col-lg-5 col-md-7 col-sm-10">
           <h1 class="mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="0">
-            Sign Up {{token}}
+            Sign Up
           </h1>
           <form @submit.prevent="signUp"
                 class="js-ajax-form">
@@ -86,30 +86,30 @@
                   if(response.status !== 200) throw Error(response.statusText)
                 })
                 .then(() => {
-                  fetch("http://localhost:8080/api/auth/token",
-                      {
-                        method: "POST",
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': `Basic ${btoa(`${this.username}:${this.password}`)}`
-                        },
-                      })
-                      .then((response) => {
-                        if(response.status !== 200) throw Error(response.statusText)
-                        console.log(response)
-                        return response.text()
-                      })
-                      .then((data) => {
-                        this.$store.commit("setJwtToken", data)
-                        this.$router.push("portfolio")
-                      })
-
+                  this.signIn()
                 })
                 .catch(() => {
                   this.hasError= true
-                }
-
-            )
+                })
+          },
+          signIn() {
+            fetch("http://localhost:8080/api/auth/token",
+                {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(`${this.username}:${this.password}`)}`
+                  },
+                })
+                .then((response) => {
+                  if(response.status !== 200) throw Error(response.statusText)
+                  console.log(response)
+                  return response.text()
+                })
+                .then((data) => {
+                  this.$store.commit("setJwtToken", data)
+                  this.$router.push("portfolio")
+                })
           }
         }
     }
