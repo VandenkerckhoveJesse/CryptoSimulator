@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.security.Principal;
 
-@RestController
 @CrossOrigin(origins = "*")
+@RestController
 @RequestMapping(path = "api/portfolio")
 public class PortfolioController {
     @Autowired

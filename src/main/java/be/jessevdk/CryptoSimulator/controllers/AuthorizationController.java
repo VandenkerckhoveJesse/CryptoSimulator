@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/auth")
 public class AuthorizationController {
@@ -21,7 +22,7 @@ public class AuthorizationController {
         this.applicationUserService = applicationUserService;
     }
 
-    @CrossOrigin(origins = "http://localhost:8084")
+
     @PostMapping("token")
     public String token(Authentication authentication) {
         LOG.debug("Token requested for user: '{}'", authentication.getName());
@@ -30,7 +31,6 @@ public class AuthorizationController {
         return token;
     }
 
-    @CrossOrigin(origins = "http://localhost:8084")
     @PostMapping("signup")
     public ApplicationUserDTO createNewUser(@RequestBody CreateNewUserRequest body) {
         return applicationUserService.createNewUser(body.getUsername(), body.getPassword());

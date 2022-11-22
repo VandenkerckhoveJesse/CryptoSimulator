@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "api/currency")
 public class CurrencyController {
@@ -18,7 +19,7 @@ public class CurrencyController {
         this.currencyService = currencyService;
     }
 
-    @CrossOrigin(origins = "http://localhost:8084")
+
     @GetMapping
     public List<CurrencyDTO> getAllCurrencies() {
         return currencyService.getAllCurrencies();
