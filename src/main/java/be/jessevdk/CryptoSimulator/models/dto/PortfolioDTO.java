@@ -7,14 +7,17 @@ import java.util.List;
 
 public class PortfolioDTO {
     private List<CoinDTO> coins;
-    private BigDecimal valueUsd; //todo Floating-Point Arithmetic, double should not be used for financial precise calculations
+    private BigDecimal valueUsd;
+
+    private BigDecimal walletUsd;
 
     public PortfolioDTO() {
     }
 
-    public PortfolioDTO(List<CoinDTO> coins, BigDecimal valueUsd) {
+    public PortfolioDTO(List<CoinDTO> coins, BigDecimal valueUsd, BigDecimal walletUsd) {
         this.coins = coins;
         this.valueUsd = valueUsd;
+        this.walletUsd = walletUsd;
     }
 
     public List<CoinDTO> getCoins() {
@@ -31,5 +34,13 @@ public class PortfolioDTO {
 
     public void setValueUsd(BigDecimal valueUsd) {
         this.valueUsd = valueUsd;
+    }
+
+    public BigDecimal getWalletUsd() {
+        return walletUsd;
+    }
+
+    public void setWalletUsd(BigDecimal walletUsd) {
+        this.walletUsd = walletUsd;
     }
 }

@@ -8,6 +8,7 @@ import be.jessevdk.CryptoSimulator.exceptions.UserNotFoundException;
 import be.jessevdk.CryptoSimulator.models.api.Asset;
 import be.jessevdk.CryptoSimulator.models.api.GetAssetsResponse;
 import be.jessevdk.CryptoSimulator.models.domain.Coin;
+import be.jessevdk.CryptoSimulator.models.dto.ApplicationUserDTO;
 import be.jessevdk.CryptoSimulator.models.dto.CoinDTO;
 import be.jessevdk.CryptoSimulator.models.dto.CurrencyDTO;
 import be.jessevdk.CryptoSimulator.models.dto.PortfolioDTO;
@@ -39,10 +40,10 @@ public class PortfolioService {
 
     public PortfolioDTO getPortfolio(String username) {
         ApplicationUser user = userRepository.findByUsername(username);
-        return mapPortfolioToPortfolioDTO(user.getPortfolio());
+        return mapApplicationUserToPortfolioDTO(user);
     }
 
-    private PortfolioDTO mapPortfolioToPortfolioDTO(List<Coin> coins) {
+    private PortfolioDTO mapApplicationUserToPortfolioDTO(ApplicationUser user) {
         GetAssetsResponse apiResponse = webClient.get()
                 .uri("/assets/")
                 .retrieve()
@@ -52,14 +53,15 @@ public class PortfolioService {
         Map<String, BigDecimal> assetPricesMap = apiResponse.getData().stream()
                 .collect(Collectors.toMap(Asset::getId, Asset::getPriceUsd));
 
-        Stream<CoinDTO> coinDTOSStream = coins
+        Stream<CoinDTO> coinDTOSStream = user.getPortfolio()
                 .stream()
                 .filter(coin -> BigDecimal.ZERO.compareTo(coin.getAmount()) != 0) //todo this should go away because its unnecessary
                 .map(coin -> mapCoinToCoinDTO(coin, assetPricesMap.get(coin.getId())));
 
         var results = coinDTOSStream.collect(PortfolioValueAndCoinDTOToListCollector.toPortfolioValueAndCoinDTOListCollectorResult());
         return new PortfolioDTO(results.getCoinDTOList(),
-                results.getPortfolioValue());
+                results.getPortfolioValue(),
+                user.getWalletUsd());
     }
 
 
