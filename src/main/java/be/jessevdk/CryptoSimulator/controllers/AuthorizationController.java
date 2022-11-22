@@ -1,6 +1,7 @@
 package be.jessevdk.CryptoSimulator.controllers;
 
 import be.jessevdk.CryptoSimulator.models.dto.ApplicationUserDTO;
+import be.jessevdk.CryptoSimulator.models.request.CreateNewUserRequest;
 import be.jessevdk.CryptoSimulator.services.ApplicationUserService;
 import be.jessevdk.CryptoSimulator.services.TokenService;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class AuthorizationController {
         this.applicationUserService = applicationUserService;
     }
 
+    @CrossOrigin(origins = "http://localhost:8084")
     @PostMapping("token")
     public String token(Authentication authentication) {
         LOG.debug("Token requested for user: '{}'", authentication.getName());
@@ -28,9 +30,10 @@ public class AuthorizationController {
         return token;
     }
 
+    @CrossOrigin(origins = "http://localhost:8084")
     @PostMapping("signup")
-    public ApplicationUserDTO createNewUser(@RequestParam String username, @RequestParam String password) {
-        return applicationUserService.createNewUser(username, password);
+    public ApplicationUserDTO createNewUser(@RequestBody CreateNewUserRequest body) {
+        return applicationUserService.createNewUser(body.getUsername(), body.getPassword());
     }
 }
 

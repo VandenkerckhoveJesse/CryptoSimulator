@@ -1,79 +1,117 @@
 <template>
-    <section class="bg-bg-3 py-10 py-lg-20 text-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-4 col-lg-5 col-md-7 col-sm-10">
-                    <h1 class="mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="0">
-                        Sign Up
-                    </h1>
-                    <form action="https://designmodo.com/startup/app/form-handler.php" method="post" enctype="multipart/form-data" class="js-ajax-form">
-                        <!-- forms alerts -->
-                        <div class="alert alert-action-8 fixed-top invisible fade js-form-result" data-result="success" role="alert">
-											<span class="js-form-alert-text" data-default-text="Thanks for your message!">
-														Thanks for your message!
-											</span>
-                        </div>
-                        <div class="alert alert-action-5 fixed-top invisible fade js-form-result" data-result="error" role="alert">
+  <section class="bg-bg-3 py-10 py-lg-20 text-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-4 col-lg-5 col-md-7 col-sm-10">
+          <h1 class="mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="0">
+            Sign Up
+          </h1>
+          <form @submit.prevent="signUp"
+                class="js-ajax-form">
+            <!-- forms alerts -->
+            <div :class="{show: hasError}" class="alert alert-action-5 fixed-top fade js-form-result" data-result="error" role="alert">
 											<span class="js-form-alert-text">
 														Error!
 											</span>
-                        </div>
-                        <!-- forms alerts end -->
-                        <div class="row justify-content-center">
-                            <div class="mb-6 col-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="150">
-                                <div class="input-group">
-                                    <input type="text" name="firstname" placeholder="First name" class="form-control border border-dark-3" required="required">
-                                </div>
-                            </div>
-                            <div class="mb-6 col-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="250">
-                                <div class="input-group">
-                                    <input type="text" name="lastname" placeholder="Last name" class="form-control border border-dark-3" required="required">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="400">
-                            <div class="input-group-text border-end-0 border-dark-3 ps-4 pe-2">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-dark-3">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5002 3.75H2.5002C2.16868 3.75 1.85074 3.8817 1.61632 4.11612C1.3819 4.35054 1.2502 4.66848 1.2502 5V5.27104L10.0002 10.5213L18.7502 5.27098V5C18.7502 4.66848 18.6185 4.35054 18.3841 4.11612C18.1497 3.8817 17.8317 3.75 17.5002 3.75ZM0.000203451 5.64224C-6.77314e-05 5.63161 -6.79025e-05 5.62098 0.000203451 5.61034V5C0.000203451 4.33696 0.263596 3.70107 0.732437 3.23223C1.20128 2.76339 1.83716 2.5 2.5002 2.5H17.5002C18.1632 2.5 18.7991 2.76339 19.268 3.23223C19.7368 3.70107 20.0002 4.33696 20.0002 5V5.61604V5.63397V15C20.0002 15.663 19.7368 16.2989 19.268 16.7678C18.7991 17.2366 18.1632 17.5 17.5002 17.5H2.5002C1.83716 17.5 1.20128 17.2366 0.732437 16.7678C0.263596 16.2989 0.000203451 15.663 0.000203451 15V5.64224ZM18.7502 13.9117V6.72895L12.6801 10.3708L18.7502 13.9117ZM18.7051 15.3329L11.5602 11.165L11.4569 11.1048L10.0002 11.9788L8.54329 11.1049L8.44016 11.165L1.29533 15.3328C1.35239 15.5394 1.46213 15.7297 1.61632 15.8839C1.85074 16.1183 2.16868 16.25 2.5002 16.25H17.5002C17.8317 16.25 18.1497 16.1183 18.3841 15.8839C18.5383 15.7297 18.648 15.5394 18.7051 15.3329ZM1.2502 13.9117V6.73013L7.31989 10.371L1.2502 13.9117Z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <input type="email" name="email" placeholder="Email address" class="form-control border-start-0 border-dark-3 ps-1" required="required">
-                        </div>
-                        <div class="input-group mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="500">
-                            <div class="input-group-text border-end-0 border-dark-3 ps-4 pe-2">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-dark-3">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.375 10H5.625C5.29348 10 4.97554 10.1317 4.74112 10.3661C4.5067 10.6005 4.375 10.9185 4.375 11.25V17.5C4.375 17.8315 4.5067 18.1495 4.74112 18.3839C4.97554 18.6183 5.29348 18.75 5.625 18.75H14.375C14.7065 18.75 15.0245 18.6183 15.2589 18.3839C15.4933 18.1495 15.625 17.8315 15.625 17.5V11.25C15.625 10.9185 15.4933 10.6005 15.2589 10.3661C15.0245 10.1317 14.7065 10 14.375 10ZM5.625 8.75C4.96196 8.75 4.32607 9.01339 3.85723 9.48223C3.38839 9.95107 3.125 10.587 3.125 11.25V17.5C3.125 18.163 3.38839 18.7989 3.85723 19.2678C4.32607 19.7366 4.96196 20 5.625 20H14.375C15.038 20 15.6739 19.7366 16.1428 19.2678C16.6116 18.7989 16.875 18.163 16.875 17.5V11.25C16.875 10.587 16.6116 9.95107 16.1428 9.48223C15.6739 9.01339 15.038 8.75 14.375 8.75H5.625ZM5.625 5C5.625 3.83968 6.08594 2.72688 6.90641 1.90641C7.72688 1.08594 8.83968 0.625 10 0.625C11.1603 0.625 12.2731 1.08594 13.0936 1.90641C13.9141 2.72688 14.375 3.83968 14.375 5V8.75H13.125V5C13.125 4.1712 12.7958 3.37634 12.2097 2.79029C11.6237 2.20424 10.8288 1.875 10 1.875C9.1712 1.875 8.37634 2.20424 7.79029 2.79029C7.20424 3.37634 6.875 4.1712 6.875 5V8.75H5.625V5Z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <input type="password" name="password" placeholder="Password" class="form-control border-start-0 border-dark-3 ps-1" required="required">
-                        </div>
-                        <label class="form-check aos-init aos-animate" data-aos="fade-down" data-aos-delay="650">
-                            <input class="form-check-input" type="checkbox" name="subscribe" checked="checked">
-                            <p class="text-start ms-9 text-dark-1 mb-6">
-                                Subscribe to our newsletter
-                            </p>
-                        </label>
-                        <button class="btn btn-action-1 w-100 mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="750">
-                            Sign Up
-                        </button>
-                        <p class="d-inline-block text-dark-3 mb-0 aos-init aos-animate" data-aos="fade-down" data-aos-delay="900">
-                            Already have an account?
-                        </p>
-                        <a href="https://designmodo.com/startup/app/preview.php?id=14661#" class="ms-1 aos-init aos-animate" data-aos="fade-down" data-aos-delay="900">
-                            Log In
-                        </a>
-                    </form>
-                </div>
             </div>
+            <!-- forms alerts end -->
+            <div class="input-group mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="400">
+              <div class="input-group-text border-end-0 border-dark-3 ps-4 pe-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                     class="fill-dark-3">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M12.075,10.812c1.358-0.853,2.242-2.507,2.242-4.037c0-2.181-1.795-4.618-4.198-4.618S5.921,4.594,5.921,6.775c0,1.53,0.884,3.185,2.242,4.037c-3.222,0.865-5.6,3.807-5.6,7.298c0,0.23,0.189,0.42,0.42,0.42h14.273c0.23,0,0.42-0.189,0.42-0.42C17.676,14.619,15.297,11.677,12.075,10.812 M6.761,6.775c0-2.162,1.773-3.778,3.358-3.778s3.359,1.616,3.359,3.778c0,2.162-1.774,3.778-3.359,3.778S6.761,8.937,6.761,6.775 M3.415,17.69c0.218-3.51,3.142-6.297,6.704-6.297c3.562,0,6.486,2.787,6.705,6.297H3.415z"></path>
+                </svg>
+              </div>
+              <input v-model="username" type="text" name="username" placeholder="Username"
+                     class="form-control border-start-0 border-dark-3 ps-1" required="required">
+            </div>
+
+            <div class="input-group mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="500">
+              <div class="input-group-text border-end-0 border-dark-3 ps-4 pe-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                     class="fill-dark-3">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M14.375 10H5.625C5.29348 10 4.97554 10.1317 4.74112 10.3661C4.5067 10.6005 4.375 10.9185 4.375 11.25V17.5C4.375 17.8315 4.5067 18.1495 4.74112 18.3839C4.97554 18.6183 5.29348 18.75 5.625 18.75H14.375C14.7065 18.75 15.0245 18.6183 15.2589 18.3839C15.4933 18.1495 15.625 17.8315 15.625 17.5V11.25C15.625 10.9185 15.4933 10.6005 15.2589 10.3661C15.0245 10.1317 14.7065 10 14.375 10ZM5.625 8.75C4.96196 8.75 4.32607 9.01339 3.85723 9.48223C3.38839 9.95107 3.125 10.587 3.125 11.25V17.5C3.125 18.163 3.38839 18.7989 3.85723 19.2678C4.32607 19.7366 4.96196 20 5.625 20H14.375C15.038 20 15.6739 19.7366 16.1428 19.2678C16.6116 18.7989 16.875 18.163 16.875 17.5V11.25C16.875 10.587 16.6116 9.95107 16.1428 9.48223C15.6739 9.01339 15.038 8.75 14.375 8.75H5.625ZM5.625 5C5.625 3.83968 6.08594 2.72688 6.90641 1.90641C7.72688 1.08594 8.83968 0.625 10 0.625C11.1603 0.625 12.2731 1.08594 13.0936 1.90641C13.9141 2.72688 14.375 3.83968 14.375 5V8.75H13.125V5C13.125 4.1712 12.7958 3.37634 12.2097 2.79029C11.6237 2.20424 10.8288 1.875 10 1.875C9.1712 1.875 8.37634 2.20424 7.79029 2.79029C7.20424 3.37634 6.875 4.1712 6.875 5V8.75H5.625V5Z">
+                  </path>
+                </svg>
+              </div>
+              <input v-model="password" type="password" name="password" placeholder="Password"
+                     class="form-control border-start-0 border-dark-3 ps-1" required="required">
+            </div>
+            <button class="btn btn-action-1 w-100 mb-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="750">
+              Sign Up
+            </button>
+            <p class="d-inline-block text-dark-3 mb-0 aos-init aos-animate" data-aos="fade-down" data-aos-delay="900">
+              Already have an account?
+            </p>
+            <a href="https://designmodo.com/startup/app/preview.php?id=14661#" class="ms-1 aos-init aos-animate"
+               data-aos="fade-down" data-aos-delay="900">
+              Log In
+            </a>
+          </form>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
     export default {
-        name: "SignUp"
+        name: "SignUp",
+        data (){
+          return {
+            username: "",
+            password:"",
+            hasError: false
+          }
+        },
+        computed: {
+          token() {
+            return this.$store.state.jwtToken
+          }
+        },
+        methods : {
+          signUp() {
+            console.log(this.username)
+            fetch("http://localhost:8080/api/auth/signup",
+                {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({username: this.username, password: this.password})
+                })
+                .then((response) => {
+                  if(response.status !== 200) throw Error(response.statusText)
+                })
+                .then(() => {
+                  this.signIn()
+                })
+                .catch(() => {
+                  this.hasError= true
+                })
+          },
+          signIn() {
+            fetch("http://localhost:8080/api/auth/token",
+                {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(`${this.username}:${this.password}`)}`
+                  },
+                })
+                .then((response) => {
+                  if(response.status !== 200) throw Error(response.statusText)
+                  console.log(response)
+                  return response.text()
+                })
+                .then((data) => {
+                  this.$store.commit("setJwtToken", data)
+                  this.$router.push("portfolio")
+                })
+          }
+        }
     }
 </script>
 
