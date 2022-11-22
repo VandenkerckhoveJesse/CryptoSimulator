@@ -33,7 +33,7 @@
           }
         },
         mounted() {
-          this.fetchData()
+          this.fetchData();
         },
         methods: {
           async fetchData() {

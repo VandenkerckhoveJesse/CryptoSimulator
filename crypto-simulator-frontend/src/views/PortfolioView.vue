@@ -61,6 +61,11 @@ export default {
       return this.$store.state.jwtToken
     }
   },
+  beforeCreate() {
+    if(!this.$store.state.authenticated){
+      this.$router.push("login")
+    }
+  },
   mounted() {
     this.fetchCurrencies();
     this.fetchPortfolio();

@@ -46,9 +46,9 @@
               <p class="d-inline-block text-dark-3 mb-6">
                 Don’t have an account?
               </p>
-              <a href="https://designmodo.com/startup/app/preview.php?id=14747#" class="ms-1">
-                Log In
-              </a>
+              <router-link to="signup" class="ms-1">
+                Sign up
+              </router-link>
             </div>
             <div class="w-50 border-bottom border-bg-2 mx-auto mb-6 aos-init aos-animate"
                  data-aos="fade-down" data-aos-delay="400">

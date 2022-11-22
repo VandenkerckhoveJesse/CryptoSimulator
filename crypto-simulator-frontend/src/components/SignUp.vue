@@ -9,7 +9,7 @@
           <form @submit.prevent="signUp"
                 class="js-ajax-form">
             <!-- forms alerts -->
-            <div :class="{show: hasError}" class="alert alert-action-5 fixed-top fade js-form-result" data-result="error" role="alert">
+            <div :class="hasError? 'show': 'invisible'" class="alert alert-action-5 fixed-top fade js-form-result" data-result="error" role="alert">
 											<span class="js-form-alert-text">
 														Error!
 											</span>
@@ -45,10 +45,10 @@
             <p class="d-inline-block text-dark-3 mb-0 aos-init aos-animate" data-aos="fade-down" data-aos-delay="900">
               Already have an account?
             </p>
-            <a href="https://designmodo.com/startup/app/preview.php?id=14661#" class="ms-1 aos-init aos-animate"
+            <router-link to="login" class="ms-1 aos-init aos-animate"
                data-aos="fade-down" data-aos-delay="900">
               Log In
-            </a>
+            </router-link>
           </form>
         </div>
       </div>
