@@ -27,7 +27,7 @@
                         Buy your favorite crypto currencies
                     </h5>
                     <p class="mb-0">
-                        Starting with $5000 fake dollars make investment choices and grow your portfolio
+                        Starting with $10000 fake dollars make investment choices and grow your portfolio
                     </p>
                 </div>
                 <div class="col-sm-8 col-md-4 col-xxl-3 aos-init aos-animate" data-aos="fade-down" data-aos-delay="500">
