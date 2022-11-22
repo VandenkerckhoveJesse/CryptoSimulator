@@ -4,12 +4,11 @@
             <div class="p-6 p-sm-12 bg-bg-2 rounded-2 text-center text-lg-start">
                 <div class="row flex-column-reverse flex-lg-row align-items-center justify-content-center justify-content-lg-between">
                     <div class="col-md-8 col-lg-6 col-xxl-5">
+                      <p>Portfolio Value</p>
                         <h2 class="display-5 aos-init aos-animate" data-aos="fade-down" data-aos-delay="0">
-                            $6596
+                          ${{ valueUsd }}
                         </h2>
-                        <p class="mb-0 aos-init aos-animate" data-aos="fade-down" data-aos-delay="500">
-                            +25%
-                        </p>
+
                     </div>
                 </div>
             </div>
@@ -19,7 +18,8 @@
 
 <script>
     export default {
-        name: "PortfolioValue"
+        name: "PortfolioValue",
+        props: ["valueUsd"]
     }
 </script>
 
